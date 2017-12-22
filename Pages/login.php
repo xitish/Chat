@@ -25,6 +25,7 @@ $message='';
 			}
 	}
 	else if(isset($_POST['submit'])){echo 'Fill in all the fields';}
+>>>>>>> 7afcbd1bc4c7c18040b5b40a40233380a0158307
 mysqli_close($dbc);
 ?>
 

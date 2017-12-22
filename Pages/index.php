@@ -29,6 +29,7 @@ if (isset($_SESSION['user_id']))
   <link rel="stylesheet" type="text/css" href="Assets/style.css">
   <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
 </head>
+<<<<<<< HEAD
 <body style="text-align:center;">
   <h2> Welcome to Rapid Chat </h2>
   <?php if(isset($_SESSION['user_id'])): ?>

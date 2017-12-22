@@ -14,7 +14,6 @@
 		  }, 5000
 	); // refresh every 10000 milliseconds
 </script>
-
 </head>
 <body>
 	<?php
@@ -61,14 +60,31 @@
 								}
 						}
 				}
+<<<<<<< HEAD
 ?>
 		<div id="refresh"><?php require_once("message.php");?> </div>
+=======
+				 require('../mysqli_connect.php');
+				$query = "SELECT * FROM (SELECT * FROM message ORDER BY id DESC LIMIT 10) sub ORDER BY id ASC"; // For Retriving and displaying messages
+				$response = mysqli_query($dbc, $query);
+				while($row = mysqli_fetch_array($response) )
+				{
+					echo '<center><div style="background-color:#EEE2F5; margin-top:10px; padding:5px; max-width:300px; border-radius:10px; text-align:left;">';
+					echo '<span style="background-color:#C586EA; padding:5px;  border-radius:10px; display:inline-block;">'.$row['uname'] .'</span>&nbsp &nbsp'.$row['message'] .'<br/><br/>';
+					echo '</div></center>';
+				}
+	?>
+>>>>>>> 7afcbd1bc4c7c18040b5b40a40233380a0158307
 		<form action="chat.php" method="POST">
 		<?php if(isset($_POST['send']) && empty($_POST['message'])) : ?>
 			<span  style="position:relative; top:20px; right:110px; font-size:13px; color:red;" > Message Empty </span>
 		<?php endif; ?>
 		  <input type="text" name="message" placeholder = "Your Message"/>
+<<<<<<< HEAD
 		  <input type="submit" name="send" value="Send"/>
+=======
+		  <input type="submit" name="send" value="Send" />
+>>>>>>> 7afcbd1bc4c7c18040b5b40a40233380a0158307
 		</form>
   
 </body>
