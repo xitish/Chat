@@ -12,7 +12,7 @@
 		  {
 			 $('#refresh').load('message.php').fadeIn("slow");
 		  }, 5000
-	); // refresh every 10000 milliseconds
+	); // refresh every 5000 milliseconds
 </script>
 </head>
 <body>
@@ -25,67 +25,53 @@
 	<a class="homelinks" href="index.php">Home</a><br/>
 	<hr style="max-width:500px;"/>
 	<?php
-			error_reporting(2);
+			error_reporting(0);
 			$uname="";
 			$message="";
 			$msg='';
 			 require_once('../mysqli_connect.php');
-				if(!(isset($_SESSION['user_id'])))
-				{
-					header("Location: login.php");
-				}
+				if(!(isset($_SESSION['user_id']))){header("Location: login.php");}
 				else{($uname= $_SESSION['user']);}
-				if(isset($_POST['send']))
+				
+				if(isset($_POST['Send']))		//If send button is clicked
 				{
-					 if(empty($_POST['message'])) { $msg = 'Message Empty';} // When Message is sent
-						else  
-						{ 
+					if(!empty($_POST['message']) || !empty($_FILES['audiofile']['name']))		//Any of the inputs are not empty
+					{
+						if(!empty($_POST['message']))  // When Message is not empty
+						{
 							$message = trim($_POST['message']); 
-							  $query = "INSERT INTO message (uname,message) VALUES (?,?)";
-							  $stmt = mysqli_prepare($dbc, $query);
-							  mysqli_stmt_bind_param($stmt, "ss",$uname, $message);
-							  mysqli_stmt_execute($stmt);
-							  $affected_rows = mysqli_stmt_affected_rows($stmt);
-							  if($affected_rows == 1)
-							{
-									mysqli_stmt_close($stmt);
-									mysqli_close($dbc);
-							} 
-							   else
-								{
-								  echo 'Error Occurred<br />';
-								  echo mysqli_error($dbc);
-								  mysqli_stmt_close($stmt);
-								  mysqli_close($dbc);
-								}
 						}
+						
+						if(!empty($_FILES['audiofile']['name']))			//Audio file is not empty
+						{
+							$dir="upload/";
+							$audio_path=$dir.basename($_FILES['audiofile']['name']);
+							move_uploaded_file($_FILES['audiofile']['tmp_name'],$audio_path);
+						}
+						$query = "INSERT INTO message (uname,message,audiofile) VALUES (?,?,?)";
+						$stmt = mysqli_prepare($dbc, $query);
+						mysqli_stmt_bind_param($stmt, "sss",$uname,$message, $audio_path);
+						mysqli_stmt_execute($stmt);
+						$affected_rows = mysqli_stmt_affected_rows($stmt);
+						if($affected_rows != 1)
+						{
+							echo 'Error Occurred<br />';
+							echo mysqli_error($dbc);									
+						} 
+						mysqli_stmt_close($stmt);
+						mysqli_close($dbc);
+					}
 				}
-<<<<<<< HEAD
 ?>
-		<div id="refresh"><?php require_once("message.php");?> </div>
-=======
-				 require('../mysqli_connect.php');
-				$query = "SELECT * FROM (SELECT * FROM message ORDER BY id DESC LIMIT 10) sub ORDER BY id ASC"; // For Retriving and displaying messages
-				$response = mysqli_query($dbc, $query);
-				while($row = mysqli_fetch_array($response) )
-				{
-					echo '<center><div style="background-color:#EEE2F5; margin-top:10px; padding:5px; max-width:300px; border-radius:10px; text-align:left;">';
-					echo '<span style="background-color:#C586EA; padding:5px;  border-radius:10px; display:inline-block;">'.$row['uname'] .'</span>&nbsp &nbsp'.$row['message'] .'<br/><br/>';
-					echo '</div></center>';
-				}
-	?>
->>>>>>> 7afcbd1bc4c7c18040b5b40a40233380a0158307
-		<form action="chat.php" method="POST">
-		<?php if(isset($_POST['send']) && empty($_POST['message'])) : ?>
-			<span  style="position:relative; top:20px; right:110px; font-size:13px; color:red;" > Message Empty </span>
-		<?php endif; ?>
-		  <input type="text" name="message" placeholder = "Your Message"/>
-<<<<<<< HEAD
-		  <input type="submit" name="send" value="Send"/>
-=======
-		  <input type="submit" name="send" value="Send" />
->>>>>>> 7afcbd1bc4c7c18040b5b40a40233380a0158307
+		<div id="refresh">  <?php require('message.php'); ?> </div>		<!-- Refresh this div every 5 seconds -->
+		<form action="chat.php" method="POST"  enctype="multipart/form-data">
+			<?php if(isset($_POST['Send']) && empty($_POST['message'])  && empty($_FILES['audiofile']['name'])) : ?>
+				<span  style="position:relative; top:20px; right90px; font-size:13px; color:red;" > Empty Message and File </span>
+			<?php endif; ?>
+			 <input type="text" name="message" placeholder = "Your Message"/>
+			 OR<br/>
+			 <input type="file" name="audiofile" id="audiofile" /><br><br>
+			 <input type="submit" name="Send" value="Send"/>
 		</form>
-  
 </body>
 </html>

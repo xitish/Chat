@@ -29,7 +29,6 @@ if (isset($_SESSION['user_id']))
   <link rel="stylesheet" type="text/css" href="Assets/style.css">
   <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
 </head>
-<<<<<<< HEAD
 <body style="text-align:center;">
   <h2> Welcome to Rapid Chat </h2>
   <?php if(isset($_SESSION['user_id'])): ?>
@@ -43,6 +42,6 @@ if (isset($_SESSION['user_id']))
     <a class="homelinks" href="register.php">Register</a><br/><br/><br/>
   <?php endif; ?>
   <img src="chat.jpg" style="max-width:80%"/>
-  <p> Developed by : <b> Pukar Ghimire </b></p>
+  <p> Developed by : <b> Pukar Ghimire </b> and <b>Deependra Ramtel</b></p>
 </body>
 </html>
