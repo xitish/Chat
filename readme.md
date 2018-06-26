@@ -1,5 +1,5 @@
 ## Chat Without Internet
-### Through this app, you can chat with your friends and family within same network without use of interner.
+### Through this app, you can chat with your friends and family within same network without use of internet.
 ### Useful for large offices and Schools/Colleges
 ### Can also share Files
 
